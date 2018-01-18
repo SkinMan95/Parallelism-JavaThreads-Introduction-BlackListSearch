@@ -7,8 +7,22 @@ package edu.eci.arsw.threads;
 
 /**
  *
- * @author hcadavid
+ * @author SkinMan95
  */
-public class CountThread {
+public class CountThread implements Runnable {
+
+    public int begin, end;
+    
+    public CountThread(int beg, int end) {
+        this.begin = beg;
+        this.end = end;
+    }
+    
+    @Override
+    public void run() {
+        for(int i = this.begin ; i < this.end ; i++) {
+            System.out.println(i);
+        }
+    }
     
 }
