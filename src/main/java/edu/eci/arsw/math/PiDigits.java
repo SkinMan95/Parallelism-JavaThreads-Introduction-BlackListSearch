@@ -12,7 +12,7 @@ package edu.eci.arsw.math;
 class PiDigits {
     // TODO
     
-    public byte[] getDigits() {
+    public static byte[] getDigits(int a, int b) {
         return null;
     }
 }

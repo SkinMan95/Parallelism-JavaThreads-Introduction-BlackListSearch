@@ -1,0 +1,2 @@
+Sin paralelismo: 80s
+Con 8 threads: 12s
