@@ -1,2 +1,67 @@
+================
+PARTE 1
+================
+Cambie el incio con 'start()' por 'run()'. ¿Cómo cambia la salida?, ¿Por qué?
+
+R: Cambia en que el metodo 'start' crea un nuevo hilo y se ejecuta el metodo 'run' en el nuevo hilo. Mientras que solo ejecutando 'run' se ejecuta
+el metodo en el hilo actual, por lo que es una salida secuencial con el metodo 'run', con el 'start' es una salida con orden arbitrario.
+
+================================================================
+
+================
+PARTE 2
+================
 Sin paralelismo: 80s
-Con 8 threads: 12s
+Con paralelismo de 8 threads: 12s
+
+================
+PARTE 2.1
+================
+¿Cómo se podría modificar la implementación para minimizar el número de consultas en estos casos?, ¿Qué elemento nuevo traería esto al problema?
+R: Se podria modificar por medio de mantener una cuenta global de la cantidad de casos encontrados en los que el host ha sido notificado en lista negra.
+Esto traeria que cada hilo debe acceder al estado global cada vez antes de realizar una comprobacion para evitar desperdiciar ciclos de procesamiento,
+sin embargo esto debe controlarse por medio de un acceso unico para escritura (en caso de encontrarse en la lista negra) y lectura multiple para comprobar
+si ya deberian detenerse o seguir.
+
+================================================================
+
+================
+PARTE 3
+================
+
+Comparacion de desempeño:
+
++-------------+-------------+-------------+
+|Hilos        |Hilos Reales |Tiempo (s)   |
++-------------+-------------+-------------+
+|1            |1            |87s          |
++-------------+-------------+-------------+
+|8            |8            |10s          |
++-------------+-------------+-------------+
+|16           |16           |5s           |
++-------------+-------------+-------------+
+|50           |50           |1s           |
++-------------+-------------+-------------+
+|100          |100          |0s           |
++-------------+-------------+-------------+
+|200          |200          |0s           |
++-------------+-------------+-------------+
+|500          |500          |0s           |
++-------------+-------------+-------------+
+|1000         |1000         |0s           |
++-------------+-------------+-------------+
+|2000         |2000         |0s           |
++-------------+-------------+-------------+
+|3000         |3077         |0s           |
++-------------+-------------+-------------+
+|6000         |6154         |0s           |
++-------------+-------------+-------------+
+|12000        |13334        |0s           |
++-------------+-------------+-------------+
+|24000        |26667        |1s           |
++-------------+-------------+-------------+
+
+NOTA: La diferencia de hilos reales respecto a los deseados es debido a la división
+justa de hilos para resolver las 80000 direcciones a verificar.
+
+NOTA 2: El consumo de recursos de los hilos están visibles en el pantallazo 'recursos-durante-pruebas.png'.

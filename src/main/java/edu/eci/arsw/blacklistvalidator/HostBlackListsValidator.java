@@ -36,21 +36,20 @@ public class HostBlackListsValidator {
         
         int checkedListsCount = 0;
         
-        while (skds.getRegisteredServersCount() % numThreads != 0 && numThreads > 0) {
-            numThreads--;
-        }
-        
         if (numThreads <= 0) {
             numThreads = skds.getRegisteredServersCount();
         }
         
-        List<ParallelIPAddressValidator> validators = new ArrayList<ParallelIPAddressValidator>();
+        List<ParallelIPAddressValidator> validators = new ArrayList<>();
         
-        for (int i = 0; i < numThreads; i++) {
-            validators.add(new ParallelIPAddressValidator(ipaddress, 
-                    i*(skds.getRegisteredServersCount() / numThreads),
-                    (i+1)*(skds.getRegisteredServersCount() / numThreads)));
+        int size = skds.getRegisteredServersCount();
+        int delta = size / numThreads;
+        for (int i = 0; i < size; i += delta) {
+            validators.add(new ParallelIPAddressValidator(ipaddress, i, Math.min(i+delta, size)));
+//            System.out.println("Intervalo: " + i + " ; " + Math.min(i+delta, size));
         }
+        
+        System.out.println("Real number of threads: " + validators.size());
         
         for (ParallelIPAddressValidator val : validators) {
             val.start();
@@ -60,6 +59,7 @@ public class HostBlackListsValidator {
             try {
                 val.join();
             } catch (InterruptedException ex) {
+                LOG.log(Level.SEVERE, "ERROR: " + ex.getMessage());
             }
         }
         
