@@ -65,3 +65,23 @@ NOTA: La diferencia de hilos reales respecto a los deseados es debido a la divis
 justa de hilos para resolver las 80000 direcciones a verificar.
 
 NOTA 2: El consumo de recursos de los hilos están visibles en el pantallazo 'recursos-durante-pruebas.png'.
+
+1) ¿Por qué el mejor desempeño no se logra con los 500 hilos?, ¿Cómo se compara este desempeño cuando se usan 200?
+
+R: Debido a que entre mas hilos se tengan donde la cantidad de hilos es mayor al numero de nucleos disponibles en 
+el sistema operativo, ya que no se podra tener todos los hilos corriendo paralelamente, sino que varios tienen que
+ir uno detras de otro, entonces se tiene que ciertos hilos tienen una asignacion determinada por el SO, pero en 
+donde al haber demasiados hilos, muchos se veran negativamente afectados por la asignacion 'justa' del tiempo de 
+computo.
+
+2) ¿Cómo se comporta la solución usando tantos hilos de procesamiento como núcleos comparado con el resultado de usar el doble de éste?
+
+R: Usando el doble de hilos que unidades de procesamiento mejora en aproximadamente 200%.
+
+3) De acuerdo con lo anterior, si para este problema en lugar de 100 hilos en una sola CPU se pudiera usar 1 hilo en cada una de 100 máquinas hipotéticas, la ley de Amdahls se aplicaría mejor?. Si en lugar de esto se usaran c hilos en 100/c máquinas distribuidas (siendo c es el número de núcleos de dichas máquinas), se mejoraría?
+
+R: La ley de Amdahls depende del parametro del mejoramiento teorico del desempeño, sin embargo, analizando la ecuacion de la ley, esta tiene a P en el dominio (0, 1), donde se puede observar
+que la ecuacion tiene una asintota horizontal dependiente del valor de la fraccion de desempeño P, por lo es congruente.
+
+Otro detalle respecto a la ley de Amdahls es que el valor de la fraccion de desempeño depende de el nivel de paralelismo que tiene la aplicacion que se va a correr, por lo que el principio
+seguiria siendo el mismo si se corre en una CPU con multiples nucleos que varios computadores con un solo nucleo pero con la misma cantidad (Teoricamente).
